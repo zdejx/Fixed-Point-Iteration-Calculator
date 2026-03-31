@@ -1,0 +1,247 @@
+// Brand Colors - Dark Mode (Default)
+$bg-dark: #0a0a12;
+$card-bg: #151521;
+$panel-inner: #1c1c2e;
+$accent-blue: #4d79ff;
+$input-bg: #12121f;
+$header-tan: #e6e0d4;
+
+// Light Mode Palette (Matched to your specific hex codes)
+$bg-light: #e6e1d6;       // "bg"
+$card-light: #cdc8bc;     // "div"
+$panel-light: #f2eee4;    // "div 2"
+$text-light: #090916;     // "text"
+$calc-btn-light: #1a237e; // "calculate"
+
+body {
+    background-color: $bg-dark;
+    padding: 20px;
+    font-family: sans-serif;
+    transition: background-color 0.3s ease;
+}
+
+// --- LIGHT MODE OVERRIDES ---
+.light-mode {
+    body { background-color: $bg-light; }
+
+    .calc-header {
+        background: $bg-dark; 
+        color: white;
+        #theme-icon { filter: invert(1); } 
+    }
+
+    .main-card {
+        background: $card-light;
+        border: 1px solid darken($card-light, 10%);
+    }
+
+    .tab-nav {
+        .active { background: $card-light; color: $text-light; }
+        .inactive { background: darken($card-light, 5%); color: lighten($text-light, 30%); }
+    }
+
+    .top-inputs, .keypad-container, .output-inner-card {
+        background: $card-light; 
+    }
+
+    input, .display-box {
+        background: $panel-light !important; 
+        color: $text-light !important;       
+        &::placeholder { color: rgba(9, 9, 22, 0.5); }
+    }
+
+    .field-group label, .result-item label { color: $text-light; }
+
+    // General Key Styles
+    .key, .key-alt, .button-special {
+        background: $panel-light;
+        color: $text-light;
+        &:hover { background: #ffffff; }
+    }
+
+    // Fixed key-num to div 2 color
+    .key-num { 
+        background: $panel-light !important; 
+        color: $text-light !important;
+        font-weight: bold; 
+        &:hover { background: #ffffff !important; }
+    }
+    
+    .key-alt { color: $text-light; }
+
+    .calculate-btn { background: $calc-btn-light; color: white; }
+
+    .output-side { border-left: 1px solid darken($card-light, 10%); }
+
+    .highlight { color: $text-light; }
+}
+
+// --- LAYOUT COMPONENTS ---
+
+.calc-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.calc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: $header-tan;
+    padding: 10px 25px;
+    border-radius: 8px;
+    color: #1a1a1a;
+    h1 { font-size: 1.1rem; margin: 0; font-weight: bold; }
+    
+    .theme-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        img {
+            width: 28px;
+            height: 28px;
+            transition: transform 0.2s;
+            &:hover { transform: scale(1.1); }
+        }
+    }
+}
+
+.tab-nav {
+    display: flex;
+    gap: 5px;
+    margin-top: 15px;
+    padding-left: 20px;
+    .tab {
+        padding: 8px 25px;
+        border-radius: 12px 12px 0 0;
+        text-decoration: none;
+        font-size: 0.85rem;
+    }
+    .active { background: $card-bg; color: white; }
+    .inactive { background: #1e1e2f; color: #777; }
+}
+
+.main-card {
+    display: flex;
+    background: $card-bg;
+    padding: 25px;
+    border: 1px solid #2d2d44;
+    border-radius: 0 15px 15px 15px;
+    min-height: 550px;
+}
+
+.panel { flex: 1; padding: 10px; }
+
+/* Left Side: Inputs and Keypad */
+.top-inputs {
+    display: flex;
+    gap: 12px;
+    background: $panel-inner;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    
+    .field-group {
+        display: flex;
+        flex-direction: column;
+        label { color: #ccc; font-size: 0.8rem; margin-bottom: 5px; }
+        input {
+            background: $input-bg;
+            border: none;
+            border-radius: 12px;
+            padding: 10px;
+            color: white;
+            text-align: center;
+            width: auto;
+            box-sizing: border-box;
+        }
+    }
+    .flex-3 { flex: 3; }
+}
+
+.keypad-container {
+    background: $panel-inner;
+    padding: 25px;
+    border-radius: 25px;
+}
+
+.keypad-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.key, .key-num, .key-alt, .button-special {
+    padding: 12px 5px;
+    border-radius: 15px;
+    border: none;
+    color: white;
+    font-size: 0.8rem;
+    cursor: pointer;
+    background: #252538;
+    transition: 0.2s;
+    &:hover { background: #353550; }
+}
+
+.key-num { background: #12121f; font-weight: bold; }
+.key-alt { background: #2a2a40; color: #aaa; }
+
+.calculate-btn {
+    display: block;
+    width: 50%;
+    background: $accent-blue;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: lowercase;
+    text-align: center;
+    margin: 0 auto;
+}
+
+/* Right Side: Output Visuals */
+.output-side {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid #252538;
+}
+
+.output-inner-card {
+    background: $panel-inner;
+    width: 85%;
+    padding: 40px 30px;
+    border-radius: 35px;
+    
+    .result-item {
+        margin-bottom: 25px;
+        label { color: #eee; font-size: 0.95rem; margin-bottom: 8px; display: block; }
+        .display-box {
+            background: $input-bg;
+            padding: 15px;
+            border-radius: 18px;
+            text-align: center;
+            color: #888;
+            min-height: 20px;
+        }
+        .highlight { color: #fff; font-weight: bold; }
+    }
+
+    .error-msg { 
+        color: #ff4d4d;
+        font-weight: bold;
+        font-size: 0.9rem;
+        text-align: center;
+        margin-top: 15px;
+        line-height: 1.4;
+    }
+}

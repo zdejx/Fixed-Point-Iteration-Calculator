@@ -1,0 +1,272 @@
+body {
+  background-color: #0a0a12;
+  padding: 20px;
+  font-family: sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+.light-mode body {
+  background-color: #e6e1d6;
+}
+.light-mode .calc-header {
+  background: #0a0a12;
+  color: white;
+}
+.light-mode .calc-header #theme-icon {
+  filter: invert(1);
+}
+.light-mode .main-card {
+  background: #cdc8bc;
+  border: 1px solid rgb(183.2051282051, 176.0256410256, 158.7948717949);
+}
+.light-mode .tab-nav .active {
+  background: #cdc8bc;
+  color: #090916;
+}
+.light-mode .tab-nav .inactive {
+  background: rgb(194.1025641026, 188.0128205128, 173.3974358974);
+  color: rgb(53.4193548387, 53.4193548387, 130.5806451613);
+}
+.light-mode .top-inputs, .light-mode .keypad-container, .light-mode .output-inner-card {
+  background: #cdc8bc;
+}
+.light-mode input, .light-mode .display-box {
+  background: #f2eee4 !important;
+  color: #090916 !important;
+}
+.light-mode input::placeholder, .light-mode .display-box::placeholder {
+  color: rgba(9, 9, 22, 0.5);
+}
+.light-mode .field-group label, .light-mode .result-item label {
+  color: #090916;
+}
+.light-mode .key, .light-mode .key-alt, .light-mode .button-special {
+  background: #f2eee4;
+  color: #090916;
+}
+.light-mode .key:hover, .light-mode .key-alt:hover, .light-mode .button-special:hover {
+  background: #ffffff;
+}
+.light-mode .key-num {
+  background: #f2eee4 !important;
+  color: #090916 !important;
+  font-weight: bold;
+}
+.light-mode .key-num:hover {
+  background: #ffffff !important;
+}
+.light-mode .key-alt {
+  color: #090916;
+}
+.light-mode .calculate-btn {
+  background: #1a237e;
+  color: white;
+}
+.light-mode .output-side {
+  border-left: 1px solid rgb(183.2051282051, 176.0256410256, 158.7948717949);
+}
+.light-mode .highlight {
+  color: #090916;
+}
+
+.calc-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.calc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #e6e0d4;
+  padding: 10px 25px;
+  border-radius: 8px;
+  color: #1a1a1a;
+}
+.calc-header h1 {
+  font-size: 1.1rem;
+  margin: 0;
+  font-weight: bold;
+}
+.calc-header .theme-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+}
+.calc-header .theme-btn img {
+  width: 28px;
+  height: 28px;
+  transition: transform 0.2s;
+}
+.calc-header .theme-btn img:hover {
+  transform: scale(1.1);
+}
+
+.tab-nav {
+  display: flex;
+  gap: 5px;
+  margin-top: 15px;
+  padding-left: 20px;
+}
+.tab-nav .tab {
+  padding: 8px 25px;
+  border-radius: 12px 12px 0 0;
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+.tab-nav .active {
+  background: #151521;
+  color: white;
+}
+.tab-nav .inactive {
+  background: #1e1e2f;
+  color: #777;
+}
+
+.main-card {
+  display: flex;
+  background: #151521;
+  padding: 25px;
+  border: 1px solid #2d2d44;
+  border-radius: 0 15px 15px 15px;
+  min-height: 550px;
+}
+
+.panel {
+  flex: 1;
+  padding: 10px;
+}
+
+/* Left Side: Inputs and Keypad */
+.top-inputs {
+  display: flex;
+  gap: 12px;
+  background: #1c1c2e;
+  padding: 20px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+.top-inputs .field-group {
+  display: flex;
+  flex-direction: column;
+}
+.top-inputs .field-group label {
+  color: #ccc;
+  font-size: 0.8rem;
+  margin-bottom: 5px;
+}
+.top-inputs .field-group input {
+  background: #12121f;
+  border: none;
+  border-radius: 12px;
+  padding: 10px;
+  color: white;
+  text-align: center;
+  width: auto;
+  box-sizing: border-box;
+}
+.top-inputs .flex-3 {
+  flex: 3;
+}
+
+.keypad-container {
+  background: #1c1c2e;
+  padding: 25px;
+  border-radius: 25px;
+}
+
+.keypad-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.key, .key-num, .key-alt, .button-special {
+  padding: 12px 5px;
+  border-radius: 15px;
+  border: none;
+  color: white;
+  font-size: 0.8rem;
+  cursor: pointer;
+  background: #252538;
+  transition: 0.2s;
+}
+.key:hover, .key-num:hover, .key-alt:hover, .button-special:hover {
+  background: #353550;
+}
+
+.key-num {
+  background: #12121f;
+  font-weight: bold;
+}
+
+.key-alt {
+  background: #2a2a40;
+  color: #aaa;
+}
+
+.calculate-btn {
+  display: block;
+  width: 50%;
+  background: #4d79ff;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: lowercase;
+  text-align: center;
+  margin: 0 auto;
+}
+
+/* Right Side: Output Visuals */
+.output-side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid #252538;
+}
+
+.output-inner-card {
+  background: #1c1c2e;
+  width: 85%;
+  padding: 40px 30px;
+  border-radius: 35px;
+}
+.output-inner-card .result-item {
+  margin-bottom: 25px;
+}
+.output-inner-card .result-item label {
+  color: #eee;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  display: block;
+}
+.output-inner-card .result-item .display-box {
+  background: #12121f;
+  padding: 15px;
+  border-radius: 18px;
+  text-align: center;
+  color: #888;
+  min-height: 20px;
+}
+.output-inner-card .result-item .highlight {
+  color: #fff;
+  font-weight: bold;
+}
+.output-inner-card .error-msg {
+  color: #ff4d4d;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 15px;
+  line-height: 1.4;
+}/*# sourceMappingURL=main.css.map */

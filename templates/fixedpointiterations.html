@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="calc-container">
+    <header class="calc-header">
+        <h1>Fixed Point Iterations Calculator</h1>
+        <div class="header-icon">💡</div>
+    </header>
+
+    <div class="tab-nav">
+        <a href="{{ url_for('FixedPointIteration_page') }}" class="tab active">FPI</a>
+        <a href="{{ url_for('Interval_page') }}" class="tab inactive">Interval calculator</a>
+    </div>
+
+    <div class="main-card">
+        <div class="panel input-side">
+            <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+            <form action="{{ url_for('Interval_page') }}" method="POST">
+                <div class="top-inputs">
+                    <div class="field-group flex-3">
+                        <label>g(x):</label>
+                        <input type="text" name="g_of_x" id="g_of_x" placeholder="e.g., (x + 5/2)^1/3" required>
+                    </div>
+                    <div class="field-group flex-3">
+                        <label>Interval (x0):</label>
+                        <input type="number" name="Interval" step="any" placeholder="1.5" required>
+                    </div>
+                </div>
+
+                <div class="keypad-container">
+                    <div class="keypad-grid">
+                        <button type="button" class="key">sin</button>
+                        <button type="button" class="key">cos</button>
+                        <button type="button" class="key">tan</button>
+                        <button type="button" class="key">(</button>
+                        <button type="button" class="key">)</button>
+                        <button type="button" class="key-alt">⌫</button>
+
+                        <button type="button" class="key">log</button>
+                        <button type="button" class="key">ln</button>
+                        <button type="button" class="key-num">7</button>
+                        <button type="button" class="key-num">8</button>
+                        <button type="button" class="key-num">9</button>
+                        <button type="button" class="key-alt">AC</button>
+
+                        <button type="button" class="key">π</button>
+                        <button type="button" class="button-special">√</button>
+                        <button type="button" class="key-num">4</button>
+                        <button type="button" class="key-num">5</button>
+                        <button type="button" class="key-num">6</button>
+                        <button type="button" class="key">×</button>
+
+                        <button type="button" class="key">e</button>
+                        <button type="button" class="key">abs</button>
+                        <button type="button" class="key-num">1</button>
+                        <button type="button" class="key-num">2</button>
+                        <button type="button" class="key-num">3</button>
+                        <button type="button" class="key">÷</button>
+
+                        <button type="button" class="key">shift↑</button>
+                        <button type="button" class="key">inv</button>
+                        <button type="button" class="key-num">.</button>
+                        <button type="button" class="key-num">0</button>
+                        <button type="button" class="key-num">,</button>
+                        <button type="button" class="key">−</button>
+
+                        <button type="button" class="key">x</button>
+                        <button type="button" class="key">y</button>
+                        <button type="button" class="key">^</button>
+                        <button type="button" class="key">x²</button>
+                        <button type="button" class="key">(-)</button>
+                        <button type="button" class="key">+</button>
+                    </div>
+                    <button type="submit" class="calculate-btn">calculate</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="panel output-side">
+            <div class="output-inner-card">
+                <div class="result-item">
+                    <label>f(x):</label>
+                    <div class="display-box">
+                        {% if result %}{{result.given}}
+                        {% else %}given
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="result-item">
+                    <label>[a, b]:</label>
+                    <div class="display-box">
+                        {% if result %}[{{result.f_a}}, {{result.f_b}}]
+                        {% else %}given
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="result-item">
+                    <label>Interval x0:</label>
+                    <div class="display-box highlight">
+                        {% if result and result.success %}{{result.x0}}{% else %}solved{% endif %}
+                    </div>
+                </div>
+                {% if result and not result.success %}
+                    <p class="error-msg">{{ result.error }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
