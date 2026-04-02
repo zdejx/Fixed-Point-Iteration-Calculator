@@ -2,19 +2,8 @@
 
 {% block content %}
 
-<!-- Saves the currnet theme so that it doesn't go back to darkmode if it was set to lightmode then refreshed-->
-<script>
-    (function() {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'light') {
-            document.documentElement.classList.add('light-mode');
-        }
-    })();
-</script>
-
-
 <div class="calc-container">
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    
     <header class="calc-header">
         <h1>Fixed Point Iterations Calculator</h1>
         <button id="theme-toggle" class="theme-btn">
@@ -22,7 +11,6 @@
         </button>   
     </header>
 
-    <!--Page navigation-->
     <div class="tab-nav">
         <a href="{{ url_for('FixedPointIteration_page') }}" class="tab inactive">FPI</a>
         <a href="{{ url_for('Interval_page') }}" class="tab active">Interval calculator</a>
@@ -32,8 +20,6 @@
         <div class="panel input-side">
             <form action="{{ url_for('Interval_page') }}" method="POST">
                 <div class="top-inputs">
-
-                    <!---Input boxes-->
                     <div class="field-group flex-3">
                         <label>f(x):</label>
                         <input type="text" name="equation" id="f_x" placeholder="e.g., 2*x**3 - 2*x - 9" required>
@@ -47,7 +33,6 @@
                         <input type="number" name="f_b" step="any" placeholder="b" required>
                     </div>
                 </div>
-                <!--Calculator buttons-->
                 <div class="keypad-container">
                     <div class="keypad-grid">
                         <button type="button" class="key">sin</button>
@@ -97,35 +82,38 @@
             </form>
         </div>
         
-        <!--result box (right side), only shows up after getting results, which means the calculate button was pressed and it took the equation-->
         {% if result %}
-        <div class="panel output-side">
+        <div class="panel output-side" id="reopen-panel-wrapper" style="display: none; flex: 0 0 50px; align-items: center; justify-content: center; padding: 0; cursor: pointer;" title="Show results">
+            <button type="button" id="reopen-panel-btn" class="key-alt" style="width: 35px; height: 35px; border-radius: 50%; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; padding: 0;">←</button>
+        </div>
+
+        <div class="panel output-side" id="result-panel">
             <div class="output-inner-card">
+                <button type="button" class="key-alt" id="close-panel-btn" style="width: 40px; float: right; margin-bottom: 10px;">×</button>
+                
+                <div style="clear: both;"></div>
+
                 <div class="result-item">
                     <label>f(x):</label>
                     <div class="display-box highlight">
-                        {% if result %}{{result.given}}
-                        {% else %} ...
-                        {% endif %}
+                        {{result.given}}
                     </div>
                 </div>
                 <div class="result-item">
                     <label>[a, b]:</label>
                     <div class="display-box highlight">
-                        {% if result %} {{[result.f_a, result.f_b]}}
-                        {% else %} ...
-                        {% endif %}
+                        {{[result.f_a, result.f_b]}}
                     </div>
                 </div>
                 <div class="result-item">
                     <label>Interval x0:</label>
                     <div class="display-box highlight">
-                        {% if result and result.success %} {{result.x0}} 
+                        {% if result.success %} {{result.x0}} 
                         {% else %} ...
                         {% endif %}
                     </div>
                 </div>
-                {% if result and not result.success %} <!--If the equation was not sympified, meaning hindi valid equation ni user.-->
+                {% if not result.success %}
                     <p class="error-msg">{{ result.error }}</p>
                 {% endif %}
             </div>

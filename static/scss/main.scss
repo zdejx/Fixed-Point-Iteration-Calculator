@@ -22,7 +22,11 @@ body {
 
 // --- LIGHT MODE OVERRIDES ---
 .light-mode {
-    body { background-color: $bg-light; }
+    background-color: $bg-light; // Applied to <html> or <body> via JS
+
+    body { 
+        background-color: $bg-light; 
+    }
 
     .calc-header {
         background: $bg-dark; 
@@ -44,13 +48,23 @@ body {
         background: $card-light; 
     }
 
+    // Force labels to dark color with high specificity
+    .field-group label, 
+    .result-item label { 
+        color: $text-light !important; 
+        opacity: 1 !important;
+    }
+
+    // Input and Display Box fixes
     input, .display-box {
         background: $panel-light !important; 
         color: $text-light !important;       
-        &::placeholder { color: rgba(9, 9, 22, 0.5); }
+        border: 1px solid darken($panel-light, 10%) !important;
+        
+        &::placeholder { 
+            color: rgba(9, 9, 22, 0.5) !important; 
+        }
     }
-
-    .field-group label, .result-item label { color: $text-light; }
 
     // General Key Styles
     .key, .key-alt, .button-special {
@@ -67,13 +81,27 @@ body {
         &:hover { background: #ffffff !important; }
     }
     
-    .key-alt { color: $text-light; }
+    .key-alt { 
+        color: $text-light; 
+        background: darken($panel-light, 5%);
+    }
 
-    .calculate-btn { background: $calc-btn-light; color: white; }
+    .calculate-btn { 
+        background: $calc-btn-light; 
+        color: white; 
+    }
 
-    .output-side { border-left: 1px solid darken($card-light, 10%); }
+    .output-side { 
+        border-left: 1px solid darken($card-light, 10%); 
+    }
 
-    .highlight { color: $text-light; }
+    .highlight { 
+        color: $text-light !important; 
+    }
+
+    .error-msg {
+        color: #b71c1c !important;
+    }
 }
 
 // --- LAYOUT COMPONENTS ---
@@ -244,4 +272,8 @@ body {
         margin-top: 15px;
         line-height: 1.4;
     }
+}
+
+.hidden-panel {
+    display: none !important;
 }

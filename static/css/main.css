@@ -5,6 +5,9 @@ body {
   transition: background-color 0.3s ease;
 }
 
+.light-mode {
+  background-color: #e6e1d6;
+}
 .light-mode body {
   background-color: #e6e1d6;
 }
@@ -30,15 +33,18 @@ body {
 .light-mode .top-inputs, .light-mode .keypad-container, .light-mode .output-inner-card {
   background: #cdc8bc;
 }
+.light-mode .field-group label,
+.light-mode .result-item label {
+  color: #090916 !important;
+  opacity: 1 !important;
+}
 .light-mode input, .light-mode .display-box {
   background: #f2eee4 !important;
   color: #090916 !important;
+  border: 1px solid rgb(225.425, 216.325, 193.575) !important;
 }
 .light-mode input::placeholder, .light-mode .display-box::placeholder {
-  color: rgba(9, 9, 22, 0.5);
-}
-.light-mode .field-group label, .light-mode .result-item label {
-  color: #090916;
+  color: rgba(9, 9, 22, 0.5) !important;
 }
 .light-mode .key, .light-mode .key-alt, .light-mode .button-special {
   background: #f2eee4;
@@ -57,6 +63,7 @@ body {
 }
 .light-mode .key-alt {
   color: #090916;
+  background: rgb(233.7125, 227.1625, 210.7875);
 }
 .light-mode .calculate-btn {
   background: #1a237e;
@@ -66,7 +73,10 @@ body {
   border-left: 1px solid rgb(183.2051282051, 176.0256410256, 158.7948717949);
 }
 .light-mode .highlight {
-  color: #090916;
+  color: #090916 !important;
+}
+.light-mode .error-msg {
+  color: #b71c1c !important;
 }
 
 .calc-container {
@@ -269,4 +279,8 @@ body {
   text-align: center;
   margin-top: 15px;
   line-height: 1.4;
+}
+
+.hidden-panel {
+  display: none !important;
 }/*# sourceMappingURL=main.css.map */
