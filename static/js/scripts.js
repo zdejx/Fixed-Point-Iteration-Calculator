@@ -25,10 +25,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const faInput = document.querySelector('input[name="f_a"]');
     const fbInput = document.querySelector('input[name="f_b"]');
     const GxInput = document.getElementById('g_of_x');
+    const x0Input = document.querySelector('input[name="x0"]');
+    const StoppingPointInput = document.querySelector('input[name="stopping_point"]');
+    const RoundOffInput = document.querySelector('input[name="roundoff"]');
     
     let currentInput = fxInput;
 
-    [fxInput, faInput, fbInput, GxInput].forEach(input => {
+    const allInputs = [fxInput, faInput, fbInput, GxInput, x0Input, StoppingPointInput, RoundOffInput];
+
+    allInputs.forEach(input => {
         if(input) {
             input.addEventListener('focus', () => {
                 currentInput = input;
@@ -46,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const isNumber = btn.classList.contains('key-num') || val === '.' || val === ',';
             const isAction = btn.classList.contains('key-alt');
 
+            // 1. Handle Global Actions (Clear/Delete)
             if (isAction) {
                 if (val === 'AC') {
                     currentInput.value = '';
@@ -55,13 +61,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            if (currentInput === faInput || currentInput === fbInput) {
-                if (isNumber || val === '(-)') {
-                    currentInput.value += (val === '(-)') ? '-' : val;
+            // 2. Handle Numeric-Only Inputs (fa, fb, x0, RoundOff, StoppingPoint)
+            const numericInputs = [faInput, fbInput, x0Input, RoundOffInput, StoppingPointInput];
+            
+            if (numericInputs.includes(currentInput)) {
+                if (isNumber) {
+                    // Convert comma to dot for valid mathematical processing
+                    const cleanVal = (val === ',') ? '.' : val;
+                    
+                    // Prevent multiple decimals in one input
+                    if (cleanVal === '.' && currentInput && currentInput.value.includes('.')) return;
+                    
+                    currentInput.value += cleanVal;
+                } else if (val === '(-)') {
+                    // Only allow minus sign if it's not already there (or allow toggle)
+                    if (!currentInput.value.includes('-')) {
+                        currentInput.value = '-' + currentInput.value;
+                    }
                 }
-                return;
+                return; 
             }
 
+            // 3. Handle Equation Inputs (f(x) and g(x))
             if (currentInput === fxInput || currentInput === GxInput) {
                 const mathMap = {
                     '×': '*', '÷': '/', '−': '-', 'x²': '**2', '^': '**',
@@ -72,12 +93,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 let toAdd = mathMap[val] || val;
                 const needsMultiplication = ['x', 'y', 'pi', 'e', 'sqrt(', 'sin(', 'cos(', 'tan(', 'log(', 'log10(', 'abs('];
                 
-                if (needsMultiplication.includes(toAdd)) {
-                    const lastChar = currentInput.value.slice(-1);
-                    if (/[0-9)]/.test(lastChar)) {
-                        toAdd = '*' + toAdd;
-                    }
+                const lastChar = currentInput.value.slice(-1);
+                if (needsMultiplication.includes(toAdd) && /[0-9)]/.test(lastChar)) {
+                    toAdd = '*' + toAdd;
                 }
+                
                 currentInput.value += toAdd;
             }
         });
@@ -85,28 +105,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 3. PANEL TOGGLE LOGIC ---
     const resultPanel = document.getElementById('result-panel');
+    const reopenWrapper = document.getElementById('reopen-panel-wrapper');
     const closeBtn = document.getElementById('close-panel-btn');
     const reopenBtn = document.getElementById('reopen-panel-btn');
-    const reopenWrapper = document.getElementById('reopen-panel-wrapper');
 
-    if (resultPanel && closeBtn && reopenBtn) {
-        closeBtn.onclick = () => {
-            resultPanel.style.display = 'none';
-            if (reopenWrapper) {
-                reopenWrapper.style.display = 'flex';
-            } else {
-                reopenBtn.style.display = 'block';
-            }
-        };
-        reopenBtn.onclick = () => {
-            // We use 'flex' because that is the default for your .panel class
-            resultPanel.style.display = 'flex'; 
-            if (reopenWrapper) {
-                reopenWrapper.style.display = 'none';
-            } else {
-                reopenBtn.style.display = 'none';
-            }
-        };
-    }
+    closeBtn.addEventListener('click', () => {
+        resultPanel.style.display = 'none';
+        reopenWrapper.style.display = 'flex';
+    });
+
+    reopenBtn.addEventListener('click', () => {
+        resultPanel.style.display = 'flex';
+        reopenWrapper.style.display = 'none';
+    });
 // Make sure this is the LAST line of the file to close the DOMContentLoaded block
 });

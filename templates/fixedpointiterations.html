@@ -1,32 +1,42 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <div class="calc-container">
+    
     <header class="calc-header">
         <h1>Fixed Point Iterations Calculator</h1>
-        <div class="header-icon">💡</div>
+        <button id="theme-toggle" class="theme-btn">
+            <img src="{{ url_for('static', filename='images/lightmode.png') }}" id="theme-icon" alt="Toggle Theme">
+        </button>   
     </header>
 
     <div class="tab-nav">
         <a href="{{ url_for('FixedPointIteration_page') }}" class="tab active">FPI</a>
-        <a href="{{ url_for('Interval_page') }}" class="tab inactive">Interval calculator</a>
+        <a href="{{ url_for('Interval_page') }}" class="tab inactive ">Interval calculator</a>
     </div>
 
     <div class="main-card">
         <div class="panel input-side">
-            <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
-            <form action="{{ url_for('Interval_page') }}" method="POST">
+            <form action="{{ url_for('FixedPointIteration_page') }}" method="POST">
                 <div class="top-inputs">
                     <div class="field-group flex-3">
                         <label>g(x):</label>
-                        <input type="text" name="g_of_x" id="g_of_x" placeholder="e.g., (x + 5/2)^1/3" required>
+                        <input type="text" name="equation" id="g_of_x" placeholder="e.g., 2*x**3 - 2*x - 9" required>
                     </div>
-                    <div class="field-group flex-3">
+                    <div class="field-group">
                         <label>Interval (x0):</label>
-                        <input type="number" name="Interval" step="any" placeholder="1.5" required>
+                        <input type="text" name="x0" step="any" placeholder="1.5" required>
+                    </div>
+                    <div class="field-group">
+                        <label>Stopping point:</label>
+                        <input type="text" name="stopping_point" step="any" placeholder="0.001" required>
+                    </div>
+                    <div class="field-group">
+                        <label>Round off by:</label>
+                        <input type="text" name="roundoff" step="any" placeholder="5" required>
                     </div>
                 </div>
-
                 <div class="keypad-container">
                     <div class="keypad-grid">
                         <button type="button" class="key">sin</button>
@@ -75,36 +85,36 @@
                 </div>
             </form>
         </div>
+        
+        <!---reopen panel button-->
+        {% if result %}
+        <div class="panel reopen-panel-wrapper output-side" id="reopen-panel-wrapper" title="Show results" style="display: none;">
+            <button type="button" id="reopen-panel-btn" class="key-alt">←</button>
+        </div>
 
-        <div class="panel output-side">
+        <!--Output right side-->
+        <div class="panel output-side" id="result-panel">
             <div class="output-inner-card">
-                <div class="result-item">
-                    <label>f(x):</label>
-                    <div class="display-box">
-                        {% if result %}{{result.given}}
-                        {% else %}given
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="result-item">
-                    <label>[a, b]:</label>
-                    <div class="display-box">
-                        {% if result %}[{{result.f_a}}, {{result.f_b}}]
-                        {% else %}given
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="result-item">
-                    <label>Interval x0:</label>
-                    <div class="display-box highlight">
-                        {% if result and result.success %}{{result.x0}}{% else %}solved{% endif %}
-                    </div>
-                </div>
-                {% if result and not result.success %}
-                    <p class="error-msg">{{ result.error }}</p>
-                {% endif %}
+                <button type="button" class="key-alt" id="close-panel-btn" style="width: 40px; float: right; margin-bottom: 10px;">×</button>
+                
+                <div style="clear: both;"></div>
+
+                <label style="color: #eee; font-size: 0.95rem; margin-bottom: 8px; display: block;"></label>
+<textarea class="result-textarea" readonly>g(x) = {{ result.given }}
+g'(x) = {{ result.g_prime_x }}
+interval = {{ result.x0 }}
+|g'({{result.x0}})| = {{ result.abs_gx }}
+Status: {{ "CONVERGENT" if result.abs_gx and result.abs_gx < 1 else "DIVERGENT" }}
+{% if result.success and result.iterations %}
+            --- Iteration Results ---
+{% for i in range(result.iterations|length) -%}
+Iteration {{ i + 1 }}: {{ result.iterations[i] }} || Relative error: {{ result.rel_error_counter[i] }}%
+{% endfor %}{%- endif %}
+{% if result.error %}
+Error Details: {{ result.error }}{% endif %}</textarea>
             </div>
         </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

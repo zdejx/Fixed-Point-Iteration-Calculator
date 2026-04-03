@@ -1,4 +1,4 @@
-// Brand Colors - Dark Mode (Default)
+// --- VARIABLES ---
 $bg-dark: #0a0a12;
 $card-bg: #151521;
 $panel-inner: #1c1c2e;
@@ -6,106 +6,86 @@ $accent-blue: #4d79ff;
 $input-bg: #12121f;
 $header-tan: #e6e0d4;
 
-// Light Mode Palette (Matched to your specific hex codes)
-$bg-light: #e6e1d6;       // "bg"
-$card-light: #cdc8bc;     // "div"
-$panel-light: #f2eee4;    // "div 2"
-$text-light: #090916;     // "text"
-$calc-btn-light: #1a237e; // "calculate"
+// Light Mode Palette
+$bg-light: #e6e1d6;
+$card-light: #cdc8bc;
+$panel-light: #f2eee4;
+$text-light: #090916;
+$calc-btn-light: #1a237e;
 
-body {
+// --- GLOBAL STYLES ---
+html {
     background-color: $bg-dark;
-    padding: 20px;
-    font-family: sans-serif;
     transition: background-color 0.3s ease;
+    // Firefox scrollbar
+    scrollbar-width: thin;
+    scrollbar-color: lighten($bg-dark, 15%) $bg-dark;
 }
 
-// --- LIGHT MODE OVERRIDES ---
+/* Custom Scrollbar for Chrome/Edge/Safari */
+::-webkit-scrollbar {
+    width: 12px;
+}
+::-webkit-scrollbar-track {
+    background: $bg-dark;
+}
+::-webkit-scrollbar-thumb {
+    background: lighten($bg-dark, 15%);
+    border: 3px solid $bg-dark;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: lighten($bg-dark, 25%);
+}
+
+body {
+    background-color: transparent;
+    padding: 20px;
+    font-family: sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
 .light-mode {
-    background-color: $bg-light; // Applied to <html> or <body> via JS
+    background-color: $bg-light !important;
+    // Firefox scrollbar light mode
+    scrollbar-color: darken($bg-light, 20%) $bg-light;
 
-    body { 
-        background-color: $bg-light; 
+    &::-webkit-scrollbar-track {
+        background: $bg-light;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: darken($bg-light, 20%);
+        border: 3px solid $bg-light;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: darken($bg-light, 30%);
     }
 
-    .calc-header {
-        background: $bg-dark; 
-        color: white;
-        #theme-icon { filter: invert(1); } 
-    }
-
-    .main-card {
-        background: $card-light;
-        border: 1px solid darken($card-light, 10%);
-    }
-
+    .calc-header { background: $bg-dark; color: white; #theme-icon { filter: invert(1); } }
+    .main-card { background: $card-light; border: 1px solid darken($card-light, 10%); }
     .tab-nav {
         .active { background: $card-light; color: $text-light; }
         .inactive { background: darken($card-light, 5%); color: lighten($text-light, 30%); }
     }
-
-    .top-inputs, .keypad-container, .output-inner-card {
-        background: $card-light; 
-    }
-
-    // Force labels to dark color with high specificity
-    .field-group label, 
-    .result-item label { 
-        color: $text-light !important; 
-        opacity: 1 !important;
-    }
-
-    // Input and Display Box fixes
-    input, .display-box {
+    .top-inputs, .keypad-container, .output-inner-card { background: $card-light; }
+    .field-group label, .result-item label { color: $text-light !important; }
+    input, .display-box, .result-textarea {
         background: $panel-light !important; 
         color: $text-light !important;       
         border: 1px solid darken($panel-light, 10%) !important;
-        
-        &::placeholder { 
-            color: rgba(9, 9, 22, 0.5) !important; 
-        }
     }
-
-    // General Key Styles
-    .key, .key-alt, .button-special {
-        background: $panel-light;
-        color: $text-light;
-        &:hover { background: #ffffff; }
-    }
-
-    // Fixed key-num to div 2 color
-    .key-num { 
-        background: $panel-light !important; 
+    .key, .key-alt, .button-special, .key-num {
+        background: $panel-light !important;
         color: $text-light !important;
-        font-weight: bold; 
         &:hover { background: #ffffff !important; }
     }
-    
-    .key-alt { 
-        color: $text-light; 
-        background: darken($panel-light, 5%);
-    }
-
-    .calculate-btn { 
-        background: $calc-btn-light; 
-        color: white; 
-    }
-
-    .output-side { 
-        border-left: 1px solid darken($card-light, 10%); 
-    }
-
-    .highlight { 
-        color: $text-light !important; 
-    }
-
-    .error-msg {
-        color: #b71c1c !important;
-    }
+    .calculate-btn { background: $calc-btn-light; color: white; }
+    .output-side { border-left: 1px solid darken($card-light, 10%); }
 }
 
 // --- LAYOUT COMPONENTS ---
-
 .calc-container {
     width: 100%;
     max-width: 1200px;
@@ -114,28 +94,36 @@ body {
     box-sizing: border-box;
 }
 
+// FIXED: Header size and alignment
 .calc-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: $header-tan;
-    padding: 10px 25px;
+    padding: 10px 20px;
     border-radius: 8px;
     color: #1a1a1a;
-    h1 { font-size: 1.1rem; margin: 0; font-weight: bold; }
-    
-    .theme-btn {
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 5px;
+    height: 60px; // Lock the height
+    box-sizing: border-box;
+
+    h1 { 
+        font-size: 1.1rem; 
+        margin: 0; 
+        font-weight: bold;
+        line-height: 1; 
+    }
+
+    .theme-btn { 
+        background: none; 
+        border: none; 
+        cursor: pointer; 
+        height: 30px;
         display: flex;
         align-items: center;
-        img {
-            width: 28px;
-            height: 28px;
-            transition: transform 0.2s;
-            &:hover { transform: scale(1.1); }
+
+        img { 
+            height: 25px; // Force image to stay small
+            width: auto;
         }
     }
 }
@@ -158,57 +146,96 @@ body {
 .main-card {
     display: flex;
     background: $card-bg;
-    padding: 25px;
+    padding: 20px;
     border: 1px solid #2d2d44;
     border-radius: 0 15px 15px 15px;
-    min-height: 550px;
+    height: auto;      // Allow it to grow with content
+    width: 100%;
+    box-sizing: border-box;
+    gap: 15px;
+    align-items: stretch; // Forces children to match height
 }
 
-.panel { flex: 1; padding: 10px; }
+// --- PANEL LOGIC ---
+.panel { 
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    min-width: 0; 
+}
 
-/* Left Side: Inputs and Keypad */
+.input-side {
+    flex: 6; 
+    form {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.output-side {
+    flex: 4;
+    border-left: 1px solid #252538;
+    padding-left: 20px;
+    transition: all 0.3s ease;
+}
+
+// --- INPUTS & KEYPAD ---
 .top-inputs {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     background: $panel-inner;
-    padding: 20px;
+    padding: 15px;
     border-radius: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    flex-wrap: wrap; 
     
     .field-group {
         display: flex;
         flex-direction: column;
-        label { color: #ccc; font-size: 0.8rem; margin-bottom: 5px; }
+        flex: 1 1 80px; 
+        min-width: 0;
+        
+        label { 
+            color: #ccc; 
+            font-size: 0.75rem; 
+            margin-bottom: 5px; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis;
+        }
+
         input {
             background: $input-bg;
             border: none;
-            border-radius: 12px;
-            padding: 10px;
+            border-radius: 10px;
+            padding: 10px 5px;
             color: white;
             text-align: center;
-            width: auto;
+            width: 100%;
             box-sizing: border-box;
+            min-width: 0;
         }
     }
-    .flex-3 { flex: 3; }
+    .flex-3 { flex: 2 1 150px; }
 }
 
 .keypad-container {
     background: $panel-inner;
-    padding: 25px;
-    border-radius: 25px;
+    padding: 20px;
+    border-radius: 20px;
 }
 
 .keypad-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 8px;
+    margin-bottom: 15px;
 }
 
 .key, .key-num, .key-alt, .button-special {
-    padding: 12px 5px;
-    border-radius: 15px;
+    padding: 12px 0;
+    border-radius: 12px;
     border: none;
     color: white;
     font-size: 0.8rem;
@@ -223,57 +250,84 @@ body {
 
 .calculate-btn {
     display: block;
-    width: 50%;
+    width: 80%;
     background: $accent-blue;
     color: white;
     border: none;
     padding: 12px;
-    border-radius: 15px;
+    border-radius: 12px;
     font-weight: bold;
     cursor: pointer;
     text-transform: lowercase;
-    text-align: center;
     margin: 0 auto;
 }
 
-/* Right Side: Output Visuals */
-.output-side {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-left: 1px solid #252538;
-}
-
-.output-inner-card {
+// --- OUTPUT SIDE FIXES ---
+// --- TEXTAREA OVERFLOW FIX ---
+.output-inner-card{
     background: $panel-inner;
-    width: 85%;
-    padding: 40px 30px;
-    border-radius: 35px;
-    
-    .result-item {
-        margin-bottom: 25px;
-        label { color: #eee; font-size: 0.95rem; margin-bottom: 8px; display: block; }
-        .display-box {
-            background: $input-bg;
-            padding: 15px;
-            border-radius: 18px;
-            text-align: center;
-            color: #888;
-            min-height: 20px;
-        }
-        .highlight { color: #fff; font-weight: bold; }
-    }
+    width: 100%;
+    height: 100%; // Fill the panel height
+    padding: 20px;
+    border-radius: 25px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
-    .error-msg { 
-        color: #ff4d4d;
-        font-weight: bold;
-        font-size: 0.9rem;
+.interval-result-items {
+    display: flex;
+    flex-direction: column; // Stack items vertically (or 'row' if you want them side-by-side)
+    align-items: left;    // Center items horizontally
+    justify-content: start; // Align to the top of the container
+    
+    width: 100%;            // Forces the div to take the full width of the parent
+    flex: 1;                // Tells the div to grow and fill available vertical space
+    gap: 55px;              // Increased gap slightly for better breathing room
+    padding: 20px;          // Balanced padding
+    box-sizing: border-box; // Ensures padding doesn't push the width past 100%
+}
+
+.result-item {
+    label { color: #eee; font-size: 0.85rem; margin-bottom: 5px; display: block; }
+    .display-box {
+        background: $input-bg;
+        padding: 12px;
+        width: 100%;
+        max-width: 450px; // Prevents it from getting too wide on large screens
+        display: inline-block;
+        border-radius: 12px;
         text-align: center;
-        margin-top: 15px;
-        line-height: 1.4;
+        color: #fff;
+        font-weight: bold;
+        min-height: 20px;
+        word-break: break-all; // Prevents long equations from breaking layout
     }
 }
 
-.hidden-panel {
-    display: none !important;
+.result-textarea {
+    width: 100%;
+    flex-grow: 1;      // Takes up all remaining space in the card
+    min-height: 350px; // Minimum size
+    max-height: 350px; // Prevents it from going forever
+    background: $input-bg;
+    color: #fff;
+    border: 1px solid #2d2d44;
+    border-radius: 15px;
+    padding: 15px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    resize: none;
+    outline: none;
+    box-sizing: border-box; // CRITICAL: keeps padding inside the width
+}
+
+.error-msg { color: #ff4d4d; font-size: 0.85rem; text-align: center; }
+
+#reopen-panel-wrapper {
+    flex: 0 0 auto; 
+    border-left: none;
+    padding-left: 0;
+    width: 50px; // Small footprint when "closed"
 }

@@ -1,15 +1,51 @@
-body {
+html {
   background-color: #0a0a12;
+  transition: background-color 0.3s ease;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(37.3214285714, 37.3214285714, 67.1785714286) #0a0a12;
+}
+
+/* Custom Scrollbar for Chrome/Edge/Safari */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a12;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(37.3214285714, 37.3214285714, 67.1785714286);
+  border: 3px solid #0a0a12;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(55.5357142857, 55.5357142857, 99.9642857143);
+}
+
+body {
+  background-color: transparent;
   padding: 20px;
   font-family: sans-serif;
-  transition: background-color 0.3s ease;
+  margin: 0;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .light-mode {
-  background-color: #e6e1d6;
+  background-color: #e6e1d6 !important;
+  scrollbar-color: rgb(191.3636363636, 178.6363636364, 150.6363636364) #e6e1d6;
 }
-.light-mode body {
-  background-color: #e6e1d6;
+.light-mode::-webkit-scrollbar-track {
+  background: #e6e1d6;
+}
+.light-mode::-webkit-scrollbar-thumb {
+  background: rgb(191.3636363636, 178.6363636364, 150.6363636364);
+  border: 3px solid #e6e1d6;
+}
+.light-mode::-webkit-scrollbar-thumb:hover {
+  background: rgb(172.0454545455, 155.4545454545, 118.9545454545);
 }
 .light-mode .calc-header {
   background: #0a0a12;
@@ -33,37 +69,20 @@ body {
 .light-mode .top-inputs, .light-mode .keypad-container, .light-mode .output-inner-card {
   background: #cdc8bc;
 }
-.light-mode .field-group label,
-.light-mode .result-item label {
+.light-mode .field-group label, .light-mode .result-item label {
   color: #090916 !important;
-  opacity: 1 !important;
 }
-.light-mode input, .light-mode .display-box {
+.light-mode input, .light-mode .display-box, .light-mode .result-textarea {
   background: #f2eee4 !important;
   color: #090916 !important;
   border: 1px solid rgb(225.425, 216.325, 193.575) !important;
 }
-.light-mode input::placeholder, .light-mode .display-box::placeholder {
-  color: rgba(9, 9, 22, 0.5) !important;
-}
-.light-mode .key, .light-mode .key-alt, .light-mode .button-special {
-  background: #f2eee4;
-  color: #090916;
-}
-.light-mode .key:hover, .light-mode .key-alt:hover, .light-mode .button-special:hover {
-  background: #ffffff;
-}
-.light-mode .key-num {
+.light-mode .key, .light-mode .key-alt, .light-mode .button-special, .light-mode .key-num {
   background: #f2eee4 !important;
   color: #090916 !important;
-  font-weight: bold;
 }
-.light-mode .key-num:hover {
+.light-mode .key:hover, .light-mode .key-alt:hover, .light-mode .button-special:hover, .light-mode .key-num:hover {
   background: #ffffff !important;
-}
-.light-mode .key-alt {
-  color: #090916;
-  background: rgb(233.7125, 227.1625, 210.7875);
 }
 .light-mode .calculate-btn {
   background: #1a237e;
@@ -71,12 +90,6 @@ body {
 }
 .light-mode .output-side {
   border-left: 1px solid rgb(183.2051282051, 176.0256410256, 158.7948717949);
-}
-.light-mode .highlight {
-  color: #090916 !important;
-}
-.light-mode .error-msg {
-  color: #b71c1c !important;
 }
 
 .calc-container {
@@ -92,30 +105,29 @@ body {
   justify-content: space-between;
   align-items: center;
   background: #e6e0d4;
-  padding: 10px 25px;
+  padding: 10px 20px;
   border-radius: 8px;
   color: #1a1a1a;
+  height: 60px;
+  box-sizing: border-box;
 }
 .calc-header h1 {
   font-size: 1.1rem;
   margin: 0;
   font-weight: bold;
+  line-height: 1;
 }
 .calc-header .theme-btn {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 5px;
+  height: 30px;
   display: flex;
   align-items: center;
 }
 .calc-header .theme-btn img {
-  width: 28px;
-  height: 28px;
-  transition: transform 0.2s;
-}
-.calc-header .theme-btn img:hover {
-  transform: scale(1.1);
+  height: 25px;
+  width: auto;
 }
 
 .tab-nav {
@@ -142,65 +154,93 @@ body {
 .main-card {
   display: flex;
   background: #151521;
-  padding: 25px;
+  padding: 20px;
   border: 1px solid #2d2d44;
   border-radius: 0 15px 15px 15px;
-  min-height: 550px;
+  height: auto;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 15px;
+  align-items: stretch;
 }
 
 .panel {
-  flex: 1;
-  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
-/* Left Side: Inputs and Keypad */
+.input-side {
+  flex: 6;
+}
+.input-side form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.output-side {
+  flex: 4;
+  border-left: 1px solid #252538;
+  padding-left: 20px;
+  transition: all 0.3s ease;
+}
+
 .top-inputs {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   background: #1c1c2e;
-  padding: 20px;
+  padding: 15px;
   border-radius: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
 }
 .top-inputs .field-group {
   display: flex;
   flex-direction: column;
+  flex: 1 1 80px;
+  min-width: 0;
 }
 .top-inputs .field-group label {
   color: #ccc;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .top-inputs .field-group input {
   background: #12121f;
   border: none;
-  border-radius: 12px;
-  padding: 10px;
+  border-radius: 10px;
+  padding: 10px 5px;
   color: white;
   text-align: center;
-  width: auto;
+  width: 100%;
   box-sizing: border-box;
+  min-width: 0;
 }
 .top-inputs .flex-3 {
-  flex: 3;
+  flex: 2 1 150px;
 }
 
 .keypad-container {
   background: #1c1c2e;
-  padding: 25px;
-  border-radius: 25px;
+  padding: 20px;
+  border-radius: 20px;
 }
 
 .keypad-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 8px;
+  margin-bottom: 15px;
 }
 
 .key, .key-num, .key-alt, .button-special {
-  padding: 12px 5px;
-  border-radius: 15px;
+  padding: 12px 0;
+  border-radius: 12px;
   border: none;
   color: white;
   font-size: 0.8rem;
@@ -224,63 +264,88 @@ body {
 
 .calculate-btn {
   display: block;
-  width: 50%;
+  width: 80%;
   background: #4d79ff;
   color: white;
   border: none;
   padding: 12px;
-  border-radius: 15px;
+  border-radius: 12px;
   font-weight: bold;
   cursor: pointer;
   text-transform: lowercase;
-  text-align: center;
   margin: 0 auto;
-}
-
-/* Right Side: Output Visuals */
-.output-side {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-left: 1px solid #252538;
 }
 
 .output-inner-card {
   background: #1c1c2e;
-  width: 85%;
-  padding: 40px 30px;
-  border-radius: 35px;
-}
-.output-inner-card .result-item {
-  margin-bottom: 25px;
-}
-.output-inner-card .result-item label {
-  color: #eee;
-  font-size: 0.95rem;
-  margin-bottom: 8px;
-  display: block;
-}
-.output-inner-card .result-item .display-box {
-  background: #12121f;
-  padding: 15px;
-  border-radius: 18px;
-  text-align: center;
-  color: #888;
-  min-height: 20px;
-}
-.output-inner-card .result-item .highlight {
-  color: #fff;
-  font-weight: bold;
-}
-.output-inner-card .error-msg {
-  color: #ff4d4d;
-  font-weight: bold;
-  font-size: 0.9rem;
-  text-align: center;
-  margin-top: 15px;
-  line-height: 1.4;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  border-radius: 25px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.hidden-panel {
-  display: none !important;
+.interval-result-items {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: start;
+  width: 100%;
+  flex: 1;
+  gap: 55px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.result-item label {
+  color: #eee;
+  font-size: 0.85rem;
+  margin-bottom: 5px;
+  display: block;
+}
+.result-item .display-box {
+  background: #12121f;
+  padding: 12px;
+  width: 100%;
+  max-width: 450px;
+  display: inline-block;
+  border-radius: 12px;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  min-height: 20px;
+  word-break: break-all;
+}
+
+.result-textarea {
+  width: 100%;
+  flex-grow: 1;
+  min-height: 350px;
+  max-height: 350px;
+  background: #12121f;
+  color: #fff;
+  border: 1px solid #2d2d44;
+  border-radius: 15px;
+  padding: 15px;
+  font-family: "Courier New", monospace;
+  font-size: 0.75rem;
+  resize: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.error-msg {
+  color: #ff4d4d;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+#reopen-panel-wrapper {
+  flex: 0 0 auto;
+  border-left: none;
+  padding-left: 0;
+  width: 50px;
 }/*# sourceMappingURL=main.css.map */
