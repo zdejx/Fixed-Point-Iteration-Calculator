@@ -3,13 +3,6 @@
 {% block content %}
 
 <div class="calc-container">
-    
-    <header class="calc-header">
-        <h1>Fixed Point Iterations Calculator</h1>
-        <button id="theme-toggle" class="theme-btn">
-            <img src="{{ url_for('static', filename='images/lightmode.png') }}" id="theme-icon" alt="Toggle Theme">
-        </button>   
-    </header>
 
     <div class="tab-nav">
         <a href="{{ url_for('FixedPointIteration_page') }}" class="tab active">FPI</a>
@@ -19,6 +12,8 @@
     <div class="main-card">
         <div class="panel input-side">
             <form action="{{ url_for('FixedPointIteration_page') }}" method="POST">
+
+                <!---input fields, left side--->
                 <div class="top-inputs">
                     <div class="field-group flex-3">
                         <label>g(x):</label>
@@ -37,6 +32,8 @@
                         <input type="text" name="roundoff" step="any" placeholder="5" required>
                     </div>
                 </div>
+
+                <!---keypad buttons, left side--->
                 <div class="keypad-container">
                     <div class="keypad-grid">
                         <button type="button" class="key">sin</button>
@@ -108,7 +105,7 @@ Status: {{ "CONVERGENT" if result.abs_gx and result.abs_gx < 1 else "DIVERGENT" 
 {% if result.success and result.iterations %}
             --- Iteration Results ---
 {% for i in range(result.iterations|length) -%}
-Iteration {{ i + 1 }}: {{ result.iterations[i] }} || Relative error: {{ result.rel_error_counter[i] }}%
+{{ i + 1 }}: {{ result.iterations[i] }} || Relative error: {{ result.rel_error_counter[i] }}%
 {% endfor %}{%- endif %}
 {% if result.error %}
 Error Details: {{ result.error }}{% endif %}</textarea>

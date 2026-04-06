@@ -3,7 +3,9 @@ from sympy import *
     
 class fixedpointiterations():
     x = symbols('x')
-    def GetAB(self, GetGiven, f_a, f_b,):
+    
+    #this function gets the interval of an f(x) function
+    def GetAB(self, GetGiven, f_a, f_b,): 
         x = self.x
 
         try:
@@ -14,8 +16,13 @@ class fixedpointiterations():
             tryA = float(given.subs(x, a)) #f(a)
             tryB = float(given.subs(x, b)) #f(b)
     
-            if (tryA * tryB) < 0: #checks for real root, if may real root, get interval
+    
+            #checks for real root, this works because it checks if both strings are the same, because if it is, it would be
+            #a positive digit which in most case is greater than 0 (meaning its divergent)
+            if (tryA * tryB) < 0: 
                 return {"success": True, "x0": x0, "f_a": tryA, "f_b": tryB, "given": given}
+            
+            #this is for more specific cases, but most of the time this is just for fail safe 
             else:
                 # Specific error for the Root Guarantee (Intermediate Value Theorem) same sign so this line will execute
                 if (tryA * tryB) >= 0:
@@ -29,7 +36,7 @@ class fixedpointiterations():
                         "success": False,
                         "error": f"Initial guess x0 ({x0}) must be greater than 0 for this method."
                     }
-        #invalid equation
+        #if f(x) is an invalid equation
         except Exception:
             return {"success": False, "error": "Check your equation syntax!"}
                                     
@@ -42,25 +49,27 @@ class fixedpointiterations():
             g_of_x = sympify(input_gx) #sympify the string equation
             g_prime_x = diff(g_of_x, x) #derive g(x) to get g'(x)
             abs_gx = Float(Abs(g_prime_x.subs(x, interval))) #get absolute value of g'(x) to check if it is < 1 or > 1
-            if abs_gx < 1: #for convergent
+            if abs_gx < 1: #if equation is convergent
                 return {
                     "success": True,
                     "g_of_x": g_of_x,
                     "g_prime_x": g_prime_x,
                     "abs_gx": abs_gx,          
                 }
-            else: #divergent
+            else: #if equation is divergent
                 return {
                     "success": False,
                     "error": f"{round(abs_gx, 5)} is greater than 1. \nDIVERGENT, please try another derivation of the formula.",
                     "g_prime_x": g_prime_x,
                     "abs_gx": abs_gx
                 }         
-        except Exception: #invalid equation
+        except Exception: #if g(x) is an invalid equation
             return {"success": False, "error": "Check your equation syntax!"}
            
-    #Approximate value, with iterations     
+    #Gets the approximate value with relative error included    
     def GetApprox(self, gx, interval, stopping_point, roundoff):
+        
+        #initialize the values
         x = self.x
         x_current = (interval)
         iterations = []

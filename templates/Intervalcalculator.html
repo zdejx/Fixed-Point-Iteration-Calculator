@@ -2,22 +2,17 @@
 
 {% block content %}
 
-<div class="calc-container">
-    
-    <header class="calc-header">
-        <h1>Fixed Point Iterations Calculator</h1>
-        <button id="theme-toggle" class="theme-btn">
-            <img src="{{ url_for('static', filename='images/lightmode.png') }}" id="theme-icon" alt="Toggle Theme">
-        </button>   
-    </header>
+<div class="calc-container"
 
     <div class="tab-nav">
         <a href="{{ url_for('FixedPointIteration_page') }}" class="tab inactive">FPI</a>
         <a href="{{ url_for('Interval_page') }}" class="tab active">Interval calculator</a>
     </div>
 
+    
     <div class="main-card">
         <div class="panel input-side">
+            <!---input fields, left side--->
             <form action="{{ url_for('Interval_page') }}" method="POST">
                 <div class="top-inputs">
                     <div class="field-group flex-3">
@@ -33,6 +28,7 @@
                         <input type="text" name="f_b" inputmode="decimal" placeholder="b" required>
                     </div>
                 </div>
+                <!---calculator buttons, left side--->
                 <div class="keypad-container">
                     <div class="keypad-grid">
                         <button type="button" class="key">sin</button>
