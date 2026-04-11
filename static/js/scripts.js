@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 let toAdd = mathMap[val] || val;
                 // Define tokens that usually require a multiplication symbol if they follow a number (e.g., 2x -> 2*x)
-                const needsMultiplication = ['x', 'y', 'pi', 'e', 'sqrt(', 'sin(', 'cos(', 'tan(', 'log(', 'log10(', 'abs('];
+                const needsMultiplication = ['x', 'y', 'pi', 'E', 'sqrt(', 'sin(', 'cos(', 'tan(', 'log(', 'log10(', 'abs('];
                 
                 // AUTO-MULTIPLICATION: Check the last character of the input
                 const lastChar = currentInput.value.slice(-1);
