@@ -2,13 +2,24 @@
 
 {% block content %}
 
-<div class="calc-container"
+<div class="calc-container">
 
     <div class="tab-nav">
         <a href="{{ url_for('FixedPointIteration_page') }}" class="tab inactive">FPI</a>
-        <a href="{{ url_for('Interval_page') }}" class="tab active">Interval calculator</a>
+        <a href="{{ url_for('Interval_page') }}" class="tab active">Interval</a>
     </div>
 
+    <header class="calc-header">
+        <h1>Interval Calculator</h1>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <a href="{{ url_for('index') }}" class="theme-btn">
+                <img src="{{ url_for('static', filename='images/home_button_light.svg') }}" id="home-icon" alt="Home">
+            </a>
+            <button id="theme-toggle" class="theme-btn">
+                <img src="{{ url_for('static', filename='images/lightmode.png') }}" id="theme-icon" alt="Toggle Theme">
+            </button>
+        </div>
+    </header>
     
     <div class="main-card">
         <div class="panel input-side">
@@ -57,7 +68,7 @@
                         <button type="button" class="key-num">1</button>
                         <button type="button" class="key-num">2</button>
                         <button type="button" class="key-num">3</button>
-                        <button type="button" class="key">÷</button>
+                        <button type="button" class="key">/</button>
 
                         <button type="button" class="key">shift↑</button>
                         <button type="button" class="key">inv</button>

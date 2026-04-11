@@ -15,11 +15,32 @@ $calc-btn-light: #1a237e;
 
 // --- GLOBAL STYLES ---
 html {
-    background-color: $bg-dark;
+    height: 100%;
+    margin: 0;
+    padding: 0;
     transition: background-color 0.3s ease;
     // Firefox scrollbar
     scrollbar-width: thin;
     scrollbar-color: lighten($bg-dark, 15%) $bg-dark;
+}
+
+html::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Para nasa likod lang siya ng lahat */
+    
+    /* Dito mo ilalagay yung image */
+    background: url('/static/images/bg_image.jpg') no-repeat center center;
+    background-size: cover;
+    
+    /* Transparency and Blur */
+    opacity: 0.9; 
+    filter: blur(8px); 
+    transform: scale(1.1); /* Para hindi kumalat yung blur sa edges */
 }
 
 /* Custom Scrollbar for Chrome/Edge/Safari */
@@ -39,16 +60,17 @@ html {
 }
 
 body {
-    background-color: transparent;
+    background: transparent;
     padding: 20px;
     font-family: sans-serif;
     margin: 0;
     min-height: 100vh;
     box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: lighten($bg-dark, 15%) $bg-dark;
 }
 
 .light-mode {
-    background-color: $bg-light !important;
     // Firefox scrollbar light mode
     scrollbar-color: darken($bg-light, 20%) $bg-light;
 
@@ -66,8 +88,8 @@ body {
     .calc-header { background: $bg-dark; color: white; #theme-icon { filter: invert(1); } }
     .main-card { background: $card-light; border: 1px solid darken($card-light, 10%); }
     .tab-nav {
-        .active { background: $card-light; color: $text-light; }
-        .inactive { background: darken($card-light, 5%); color: lighten($text-light, 30%); }
+        .active { background: $card-bg; color: white; }
+        .inactive { background: #1e1e2f; color: #777; }
     }
     .top-inputs, .keypad-container, .output-inner-card { background: $card-light; }
     .field-group label, .result-item label { color: $text-light !important; }
@@ -76,10 +98,16 @@ body {
         color: $text-light !important;       
         border: 1px solid darken($panel-light, 10%) !important;
     }
-    .key, .key-alt, .button-special, .key-num {
+    .key, .key-alt, .button-special {
         background: $panel-light !important;
         color: $text-light !important;
         &:hover { background: #ffffff !important; }
+    }
+
+    .key-num { 
+        background: darken($card-light, 8%);
+        color: $text-light !important; 
+        &:hover { background: lighten($card-light, 5%) !important; }
     }
     .calculate-btn { background: $calc-btn-light; color: white; }
     .output-side { border-left: 1px solid darken($card-light, 10%); }
@@ -139,8 +167,8 @@ body {
         text-decoration: none;
         font-size: 0.85rem;
     }
-    .active { background: $card-bg; color: white; }
-    .inactive { background: #1e1e2f; color: #777; }
+    .active  { background: $card-light; color: $text-light; }
+    .inactive { background: darken($card-light, 5%); color: (#6d6d85); } 
 }
 
 .main-card {

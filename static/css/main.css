@@ -1,8 +1,27 @@
 html {
-  background-color: #0a0a12;
+  height: 100%;
+  margin: 0;
+  padding: 0;
   transition: background-color 0.3s ease;
   scrollbar-width: thin;
   scrollbar-color: rgb(37.3214285714, 37.3214285714, 67.1785714286) #0a0a12;
+}
+
+html::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Para nasa likod lang siya ng lahat */
+  /* Dito mo ilalagay yung image */
+  background: url("/static/images/bg_image.jpg") no-repeat center center;
+  background-size: cover;
+  /* Transparency and Blur */
+  opacity: 0.9;
+  filter: blur(8px);
+  transform: scale(1.1); /* Para hindi kumalat yung blur sa edges */
 }
 
 /* Custom Scrollbar for Chrome/Edge/Safari */
@@ -25,16 +44,17 @@ html {
 }
 
 body {
-  background-color: transparent;
+  background: transparent;
   padding: 20px;
   font-family: sans-serif;
   margin: 0;
   min-height: 100vh;
   box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(37.3214285714, 37.3214285714, 67.1785714286) #0a0a12;
 }
 
 .light-mode {
-  background-color: #e6e1d6 !important;
   scrollbar-color: rgb(191.3636363636, 178.6363636364, 150.6363636364) #e6e1d6;
 }
 .light-mode::-webkit-scrollbar-track {
@@ -59,12 +79,12 @@ body {
   border: 1px solid rgb(183.2051282051, 176.0256410256, 158.7948717949);
 }
 .light-mode .tab-nav .active {
-  background: #cdc8bc;
-  color: #090916;
+  background: #151521;
+  color: white;
 }
 .light-mode .tab-nav .inactive {
-  background: rgb(194.1025641026, 188.0128205128, 173.3974358974);
-  color: rgb(53.4193548387, 53.4193548387, 130.5806451613);
+  background: #1e1e2f;
+  color: #777;
 }
 .light-mode .top-inputs, .light-mode .keypad-container, .light-mode .output-inner-card {
   background: #cdc8bc;
@@ -77,12 +97,19 @@ body {
   color: #090916 !important;
   border: 1px solid rgb(225.425, 216.325, 193.575) !important;
 }
-.light-mode .key, .light-mode .key-alt, .light-mode .button-special, .light-mode .key-num {
+.light-mode .key, .light-mode .key-alt, .light-mode .button-special {
   background: #f2eee4 !important;
   color: #090916 !important;
 }
-.light-mode .key:hover, .light-mode .key-alt:hover, .light-mode .button-special:hover, .light-mode .key-num:hover {
+.light-mode .key:hover, .light-mode .key-alt:hover, .light-mode .button-special:hover {
   background: #ffffff !important;
+}
+.light-mode .key-num {
+  background: rgb(187.5641025641, 180.8205128205, 164.6358974359);
+  color: #090916 !important;
+}
+.light-mode .key-num:hover {
+  background: rgb(215.8974358974, 211.9871794872, 202.6025641026) !important;
 }
 .light-mode .calculate-btn {
   background: #1a237e;
@@ -143,12 +170,12 @@ body {
   font-size: 0.85rem;
 }
 .tab-nav .active {
-  background: #151521;
-  color: white;
+  background: #cdc8bc;
+  color: #090916;
 }
 .tab-nav .inactive {
-  background: #1e1e2f;
-  color: #777;
+  background: rgb(194.1025641026, 188.0128205128, 173.3974358974);
+  color: #6d6d85;
 }
 
 .main-card {
