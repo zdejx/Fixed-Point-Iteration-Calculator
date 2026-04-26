@@ -127,16 +127,72 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeBtn = document.getElementById('close-panel-btn');
     const reopenBtn = document.getElementById('reopen-panel-btn');
 
-    // Hide the result panel and show the "reopen" tab
-    closeBtn.addEventListener('click', () => {
-        resultPanel.style.display = 'none';
-        reopenWrapper.style.display = 'flex';
+    // Only attach listeners if the elements exist (Calculator pages only)
+    if (closeBtn && resultPanel && reopenWrapper) {
+        // Hide the result panel and show the "reopen" tab
+        closeBtn.addEventListener('click', () => {
+            resultPanel.style.display = 'none';
+            reopenWrapper.style.display = 'flex';
+        });
+    }
+
+    if (reopenBtn && resultPanel && reopenWrapper) {
+        // Show the result panel and hide the "reopen" tab
+        reopenBtn.addEventListener('click', () => {
+            resultPanel.style.display = 'flex';
+            reopenWrapper.style.display = 'none';
+        });
+    }
+
+    // --- 4. SMOOTH SCROLL ENHANCEMENT ---
+    // Smooth scroll for internal navigation links (e.g., #method, #guide, #logic)
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href === '#' || !href.startsWith('#')) return;
+            
+            const targetElement = document.querySelector(href);
+            if (targetElement) {
+                e.preventDefault();
+                
+                // Account for sticky navbar height so content isn't hidden behind it
+                const navbar = document.querySelector('.navbar');
+                const offset = navbar ? navbar.offsetHeight : 0;
+                const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                
+                window.scrollTo({
+                    top: elementPosition - offset,
+                    behavior: 'smooth'
+                });
+            }
+        });
     });
 
-    // Show the result panel and hide the "reopen" tab
-    reopenBtn.addEventListener('click', () => {
-        resultPanel.style.display = 'flex';
-        reopenWrapper.style.display = 'none';
-    });
+    // --- 5. HERO VIDEO HOVER PLAY LOGIC ---
+    const heroDiv = document.querySelector('.hero-video');
+    if (heroDiv) {
+        const videoTag = heroDiv.querySelector('video');
+        let timer;
+
+        if (videoTag) {
+            heroDiv.addEventListener('mouseenter', () => {
+                // Re-verify muted for browser policy compliance
+                videoTag.muted = true;
+                timer = setTimeout(() => {
+                    videoTag.play().catch(err => {
+                        if (err.name !== 'AbortError') {
+                            console.warn("Autoplay blocked:", err);
+                        }
+                    });
+                }, 1000); 
+            });
+
+            heroDiv.addEventListener('mouseleave', () => {
+                clearTimeout(timer);
+                if (!videoTag.paused) videoTag.pause();
+            });
+        }
+    }
+
 // Make sure this is the LAST line of the file to close the DOMContentLoaded block
 });

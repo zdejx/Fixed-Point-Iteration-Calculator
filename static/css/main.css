@@ -1,7 +1,15 @@
-html {
-  height: 100%;
+/* =========================
+   GLOBAL RESET
+========================= */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  height: 100%;
   transition: background-color 0.3s ease;
   scrollbar-width: thin;
   scrollbar-color: rgb(37.3214285714, 37.3214285714, 67.1785714286) #0a0a12;
@@ -45,13 +53,15 @@ html::before {
 
 body {
   background: transparent;
-  padding: 20px;
+  padding: 0;
   font-family: sans-serif;
+  overflow-x: hidden;
   margin: 0;
   min-height: 100vh;
   box-sizing: border-box;
   scrollbar-width: thin;
   scrollbar-color: rgb(37.3214285714, 37.3214285714, 67.1785714286) #0a0a12;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .light-mode {
@@ -75,8 +85,9 @@ body {
   filter: invert(1);
 }
 .light-mode .main-card {
-  background: #cdc8bc;
-  border: 1px solid rgb(183.2051282051, 176.0256410256, 158.7948717949);
+  background: rgba(205, 200, 188, 0.85);
+  border: 1px solid rgba(183.2051282051, 176.0256410256, 158.7948717949, 0.5);
+  backdrop-filter: blur(10px);
 }
 .light-mode .tab-nav .active {
   background: #151521;
@@ -118,12 +129,25 @@ body {
 .light-mode .output-side {
   border-left: 1px solid rgb(183.2051282051, 176.0256410256, 158.7948717949);
 }
-
+.light-mode .table-container {
+  background: #f2eee4;
+  border-color: rgb(225.425, 216.325, 193.575);
+}
+.light-mode .iteration-table {
+  color: #090916;
+}
+.light-mode .iteration-table th, .light-mode .iteration-table td {
+  border-bottom-color: rgb(225.425, 216.325, 193.575);
+}
+.light-mode .iteration-table th {
+  background: rgb(233.7125, 227.1625, 210.7875);
+  color: #090916;
+}
 .calc-container {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 10px;
+  padding: 20px;
   box-sizing: border-box;
 }
 
@@ -137,12 +161,7 @@ body {
   color: #1a1a1a;
   height: 60px;
   box-sizing: border-box;
-}
-.calc-header h1 {
-  font-size: 1.1rem;
-  margin: 0;
-  font-weight: bold;
-  line-height: 1;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 .calc-header .theme-btn {
   background: none;
@@ -155,6 +174,18 @@ body {
 .calc-header .theme-btn img {
   height: 25px;
   width: auto;
+  transition: filter 0.3s ease;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
 }
 
 .tab-nav {
@@ -168,6 +199,7 @@ body {
   border-radius: 12px 12px 0 0;
   text-decoration: none;
   font-size: 0.85rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 .tab-nav .active {
   background: #cdc8bc;
@@ -180,15 +212,17 @@ body {
 
 .main-card {
   display: flex;
-  background: #151521;
+  background: rgba(21, 21, 33, 0.85);
   padding: 20px;
-  border: 1px solid #2d2d44;
+  border: 1px solid rgba(45, 45, 68, 0.5);
   border-radius: 0 15px 15px 15px;
+  backdrop-filter: blur(10px);
   height: auto;
   width: 100%;
   box-sizing: border-box;
   gap: 15px;
   align-items: stretch;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .panel {
@@ -211,7 +245,24 @@ body {
   flex: 4;
   border-left: 1px solid #252538;
   padding-left: 20px;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease, border-left-color 0.3s ease;
+}
+
+.reopen-panel-wrapper {
+  flex: 0 0 40px;
+  padding: 0 !important;
+  border-left: none !important;
+  align-items: center;
+  justify-content: center;
+}
+.reopen-panel-wrapper #reopen-panel-btn {
+  width: 100%;
+  height: 100%;
+  border-radius: 0 15px 15px 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .top-inputs {
@@ -222,6 +273,7 @@ body {
   border-radius: 20px;
   margin-bottom: 15px;
   flex-wrap: wrap;
+  transition: background-color 0.3s ease;
 }
 .top-inputs .field-group {
   display: flex;
@@ -236,6 +288,7 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: color 0.3s ease;
 }
 .top-inputs .field-group input {
   background: #12121f;
@@ -247,6 +300,7 @@ body {
   width: 100%;
   box-sizing: border-box;
   min-width: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 .top-inputs .flex-3 {
   flex: 2 1 150px;
@@ -256,6 +310,7 @@ body {
   background: #1c1c2e;
   padding: 20px;
   border-radius: 20px;
+  transition: background-color 0.3s ease;
 }
 
 .keypad-grid {
@@ -273,7 +328,7 @@ body {
   font-size: 0.8rem;
   cursor: pointer;
   background: #252538;
-  transition: 0.2s;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 .key:hover, .key-num:hover, .key-alt:hover, .button-special:hover {
   background: #353550;
@@ -301,6 +356,7 @@ body {
   cursor: pointer;
   text-transform: lowercase;
   margin: 0 auto;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .output-inner-card {
@@ -312,7 +368,8 @@ body {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  transition: background-color 0.3s ease;
 }
 
 .interval-result-items {
@@ -332,6 +389,7 @@ body {
   font-size: 0.85rem;
   margin-bottom: 5px;
   display: block;
+  transition: color 0.3s ease;
 }
 .result-item .display-box {
   background: #12121f;
@@ -345,13 +403,14 @@ body {
   font-weight: bold;
   min-height: 20px;
   word-break: break-all;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .result-textarea {
   width: 100%;
-  flex-grow: 1;
-  min-height: 350px;
-  max-height: 350px;
+  flex: none;
+  height: auto;
+  field-sizing: content;
   background: #12121f;
   color: #fff;
   border: 1px solid #2d2d44;
@@ -362,6 +421,41 @@ body {
   resize: none;
   outline: none;
   box-sizing: border-box;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.table-container {
+  flex: 1;
+  min-height: 0;
+  max-height: 250px;
+  overflow-y: auto;
+  border-radius: 12px;
+  background: #12121f;
+  border: 1px solid #2d2d44;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(37.3214285714, 37.3214285714, 67.1785714286) #0a0a12;
+}
+
+.iteration-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: white;
+  font-size: 0.8rem;
+  transition: color 0.3s ease;
+}
+.iteration-table th, .iteration-table td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #2d2d44;
+}
+.iteration-table th {
+  position: sticky;
+  top: 0;
+  background: #252538;
+  color: #aaa;
+  font-weight: bold;
+  z-index: 1;
 }
 
 .error-msg {
@@ -370,9 +464,320 @@ body {
   text-align: center;
 }
 
-#reopen-panel-wrapper {
-  flex: 0 0 auto;
-  border-left: none;
-  padding-left: 0;
-  width: 50px;
-}/*# sourceMappingURL=main.css.map */
+/* =========================
+   INDEX PAGE SPECIFIC STYLES
+========================= */
+#index-page-content {
+  font-family: Arial, sans-serif;
+  background: #F5EFE8;
+  color: #2C221C;
+}
+
+/* =========================
+   HEADER / NAVBAR
+========================= */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 8%;
+  background: rgba(245, 239, 232, 0.92);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #5A3E2B;
+  letter-spacing: 0.5px;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 32px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #5A3E2B;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #C89B6D;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.launch-btn,
+.calc-btn {
+  display: inline-block;
+  background: #5A3E2B;
+  color: white;
+  padding: 13px 26px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s ease;
+  box-shadow: 0 8px 20px rgba(90, 62, 43, 0.25);
+}
+
+.launch-btn:hover,
+.calc-btn:hover {
+  background: #3F2A1D;
+  transform: translateY(-2px);
+}
+
+/* =========================
+   HERO SECTION
+========================= */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  background: url("/static/images/bg_image.jpg") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 8%;
+  overflow: hidden;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 60px;
+}
+
+.hero-text {
+  flex: 1;
+  color: white;
+}
+
+.hero-text h1 {
+  font-size: 3.7rem;
+  margin-bottom: 22px;
+  line-height: 1.1;
+}
+
+.hero-text p {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  max-width: 650px;
+}
+
+.hero-video {
+  flex: 1;
+  transition: transform 0.4s ease; /* Adds the smooth pop effect */
+  position: relative;
+  z-index: 1;
+}
+.hero-video:hover {
+  transform: scale(1.1); /* Enlarges to 110% */
+  z-index: 10; /* Ensures it floats above other content */
+}
+.hero-video video {
+  width: 100%;
+  height: 360px;
+  border-radius: 16px;
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.3);
+  border: none;
+  display: block;
+  object-fit: cover; /* Ensures video fills the 360px height nicely */
+}
+
+/* =========================
+   USER GUIDE SECTION
+========================= */
+.guide {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 80px 8%;
+  background: #F5EFE8;
+}
+
+.guide-container {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+}
+
+.guide-video,
+.guide-content {
+  flex: 1;
+}
+
+.guide-video iframe {
+  width: 100%;
+  height: 330px;
+  border-radius: 16px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+  border: none;
+}
+
+.guide-content h2 {
+  font-size: 2.7rem;
+  color: #2C221C;
+  margin-bottom: 20px;
+}
+
+.guide-content p {
+  font-size: 1.1rem;
+  color: #2C221C;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+/* =========================
+   LOGIC SECTION
+========================= */
+.logic {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 8%;
+  background: #2B211B;
+  text-align: center;
+  color: #F8F4F0;
+}
+
+.logic h2 {
+  font-size: 2.8rem;
+  margin-bottom: 40px;
+}
+
+.logic-video iframe {
+  width: 70%;
+  height: 420px;
+  border-radius: 16px;
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.35);
+  margin-bottom: 35px;
+  border: none;
+}
+
+.logic-text {
+  max-width: 900px;
+  margin: auto;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: #F8F4F0;
+}
+
+.logic-text span {
+  color: #C89B6D;
+  font-weight: bold;
+}
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+@media (max-width: 992px) {
+  .hero-content,
+  .guide-container {
+    flex-direction: column;
+    text-align: center;
+  }
+  .hero-text h1 {
+    font-size: 2.8rem;
+  }
+  .hero-video iframe,
+  .guide-video iframe {
+    height: 300px;
+  }
+  .logic-video iframe {
+    width: 100%;
+    height: 320px;
+  }
+  .navbar .nav-links {
+    display: none;
+  }
+}
+@media (max-width: 600px) {
+  .hero-text h1 {
+    font-size: 2.2rem;
+  }
+  .guide-content h2,
+  .logic h2 {
+    font-size: 2rem;
+  }
+  .hero-video iframe,
+  .guide-video iframe,
+  .logic-video iframe {
+    height: 250px;
+  }
+}
+/*
+.home-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 30px;
+    padding-bottom: 50px;
+}
+
+.home-section {
+    background: $card-bg; // This was for old home page
+    border: 1px solid #2d2d44;
+    border-radius: 20px;
+    padding: 40px;
+    box-sizing: border-box;
+    scroll-margin-top: 20px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.split-layout {
+    display: flex; // This was for old home page
+    gap: 40px;
+    align-items: center;
+
+    &.reverse { flex-direction: row-reverse; }
+    .text-side, .video-side { flex: 1; }
+}
+
+.centered-layout { // This was for old home page
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 25px;
+    .video-box { width: 100%; max-width: 800px; }
+}
+
+.text-side {
+    h2 { color: $accent-blue; margin-top: 0; margin-bottom: 15px; transition: color 0.3s ease; } // This was for old home page
+    p { color: #ccc; line-height: 1.6; font-size: 1rem; transition: color 0.3s ease; }
+    .nav-button { display: inline-block; width: auto; padding: 10px 30px; text-decoration: none; margin-top: 15px; }
+}
+
+.video-box {
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #444;
+    border: 2px dashed #333;
+    font-weight: bold;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+*//*# sourceMappingURL=main.css.map */

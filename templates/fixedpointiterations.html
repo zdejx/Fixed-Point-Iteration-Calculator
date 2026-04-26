@@ -97,30 +97,47 @@
         
         <!---reopen panel button-->
         {% if result %}
-        <div class="panel reopen-panel-wrapper output-side" id="reopen-panel-wrapper" title="Show results" style="display: none;">
+        <div class="panel reopen-panel-wrapper" id="reopen-panel-wrapper" title="Show results" style="display: none;">
             <button type="button" id="reopen-panel-btn" class="key-alt">←</button>
         </div>
 
         <!--Output right side-->
         <div class="panel output-side" id="result-panel">
             <div class="output-inner-card">
-                <button type="button" class="key-alt" id="close-panel-btn" style="width: 40px; float: right; margin-bottom: 10px;">×</button>
-                
-                <div style="clear: both;"></div>
+                <button type="button" class="key-alt" id="close-panel-btn" style="width: 40px; align-self: flex-end; margin-bottom: 10px;">×</button>
 
-                <label style="color: #eee; font-size: 0.95rem; margin-bottom: 8px; display: block;"></label>
-<textarea class="result-textarea" readonly>g(x) = {{ result.given }}
+                <textarea class="result-textarea" readonly rows="5" style="margin-bottom: 15px;">g(x) = {{ result.given }}
 g'(x) = {{ result.g_prime_x }}
 interval = {{ result.x0 }}
 |g'({{result.x0}})| = {{ result.abs_gx }}
-Status: {{ "CONVERGENT" if result.abs_gx and result.abs_gx < 1 else "DIVERGENT" }}
-{% if result.success and result.iterations %}
-            --- Iteration Results ---
-{% for i in range(result.iterations|length) -%}
-{{ i + 1 }}: {{ result.iterations[i] }} || Relative error: {{ result.rel_error_counter[i] }}%
-{% endfor %}{%- endif %}
-{% if result.error %}
-Error Details: {{ result.error }}{% endif %}</textarea>
+Status: {{ "CONVERGENT" if result.abs_gx and result.abs_gx < 1 else "DIVERGENT" }}</textarea>
+
+                {% if result.success and result.iterations %}
+                <div class="table-container">
+                    <table class="iteration-table">
+                        <thead>
+                            <tr>
+                                <th>count</th>
+                                <th>Xn</th>
+                                <th>relative error</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in range(result.iterations|length) %}
+                            <tr>
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ result.iterations[i] }}</td>
+                                <td>{{ result.rel_error_counter[i] }}%</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+
+                {% if result.error %}
+                <p class="error-msg" style="margin-top: 10px;">{{ result.error }}</p>
+                {% endif %}
             </div>
         </div>
         {% endif %}

@@ -1,11 +1,89 @@
 {% extends "base.html" %}
 
-{% block title %}Numerical Project{% endblock %}
+{% block title %}FPI{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h1>Welcome Home!</h1>
-        <p>Choose a service to use</p>
-        <a href="{{url_for('FixedPointIteration_page')}}" class="btn">Fixed Point Iteration Calculator</a><br>
+    <div id="index-page-content">
+    <!-- HEADER -->
+    <header class="navbar">
+        <div class="logo">FPI</div>
+
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#method">The Method</a></li>
+                <li><a href="#guide">User Guide</a></li>
+                <li><a href="#logic">The Logic</a></li>
+            </ul>
+        </nav>
+
+        <a href="{{ url_for('FixedPointIteration_page') }}" class="launch-btn">Launch Calculator</a>
+    </header>
+
+
+    <!-- HERO SECTION -->
+    <section id="method" class="hero">
+        <div class="overlay"></div>
+
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Fixed-Point Iteration</h1>
+                <p>
+                    Unlock the precision of numerical analysis. Solve complex non-linear equations by transforming them into the form
+                    <strong>x = g(x)</strong> and converging on a stable root.
+                </p>
+            </div>
+
+            <div class="hero-video">
+                <video controls width="100%" muted playsinline loop>
+                    <source src="/static/videos/Moises.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- USER GUIDE SECTION -->
+    <section id="guide" class="guide">
+        <div class="guide-container">
+            <div class="guide-video">
+                <iframe
+                    src="https://www.youtube.com/embed/YOUR_WALKTHROUGH_VIDEO"
+                    title="Website Walkthrough"
+                    frameborder="0"
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <div class="guide-content">
+                <h2>Automation in Action</h2>
+                <p>
+                    Ready to see the convergence? Our interface handles the repetitive math and error checking for you instantly.
+                </p>
+
+                <a href="{{ url_for('FixedPointIteration_page') }}" class="calc-btn">Use Calculator</a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- LOGIC SECTION -->
+    <section id="logic" class="logic">
+        <h2>Behind the Code</h2>
+
+        <div class="logic-video">
+            <iframe
+                src="https://www.youtube.com/embed/YOUR_LOGIC_VIDEO"
+                title="Programming Logic Walkthrough"
+                frameborder="0"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <p class="logic-text">
+            Engineered using <span>Python Flask</span> and <span>JavaScript</span>, our program is optimized for convergence.
+            We ensure a relative error strictly less than <span>0.001</span>, bridging the gap between mathematical theory and functional software.
+        </p>
+    </section>
     </div>
 {% endblock %}
