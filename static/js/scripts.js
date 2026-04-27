@@ -169,10 +169,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- 5. HERO VIDEO HOVER PLAY LOGIC ---
-    const heroDiv = document.querySelector('.hero-video');
-    if (heroDiv) {
-        const videoTag = heroDiv.querySelector('video');
+    const heroVideos = document.querySelectorAll('.hero-video');
+    heroVideos.forEach(heroDiv => {
         let timer;
+        const videoTag = heroDiv.querySelector('video');
 
         if (videoTag) {
             heroDiv.addEventListener('mouseenter', () => {
@@ -192,7 +192,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!videoTag.paused) videoTag.pause();
             });
         }
-    }
+    });
+
+    // --- 6. SCROLL REVEAL ANIMATION ---
+    // Detects when sections enter the viewport to trigger smooth entrance animations
+    const revealOptions = {
+        threshold: 0.2 // Trigger when 20% of the section is visible
+    };
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('reveal-active');
+            }
+        });
+    }, revealOptions);
+
+    // Target the main content wrappers in each section
+    const revealElements = document.querySelectorAll('.hero-content, .guide-container, .logic h2, .logic .hero-video, .logic .logic-text');
+    revealElements.forEach(el => {
+        el.classList.add('reveal-on-scroll');
+        revealObserver.observe(el);
+    });
 
 // Make sure this is the LAST line of the file to close the DOMContentLoaded block
 });

@@ -13,6 +13,8 @@ html {
   transition: background-color 0.3s ease;
   scrollbar-width: thin;
   scrollbar-color: rgb(37.3214285714, 37.3214285714, 67.1785714286) #0a0a12;
+  scroll-snap-type: y proximity;
+  scroll-padding-top: 90px;
 }
 
 html::before {
@@ -427,7 +429,7 @@ body {
 .table-container {
   flex: 1;
   min-height: 0;
-  max-height: 250px;
+  max-height: 220px;
   overflow-y: auto;
   border-radius: 12px;
   background: #12121f;
@@ -545,8 +547,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px 8%;
+  padding: 40px 8%;
   overflow: hidden;
+  scroll-snap-align: start;
 }
 
 .overlay {
@@ -568,18 +571,22 @@ body {
 .hero-text {
   flex: 1;
   color: white;
+  text-align: center;
+  align-items: center;
 }
 
 .hero-text h1 {
-  font-size: 3.7rem;
+  font-size: 3rem;
   margin-bottom: 22px;
   line-height: 1.1;
+  white-space: nowrap;
 }
 
 .hero-text p {
   font-size: 1.15rem;
   line-height: 1.8;
   max-width: 650px;
+  margin: 0 auto;
 }
 
 .hero-video {
@@ -594,7 +601,7 @@ body {
 }
 .hero-video video {
   width: 100%;
-  height: 360px;
+  height: 320px;
   border-radius: 16px;
   box-shadow: 0 18px 35px rgba(0, 0, 0, 0.3);
   border: none;
@@ -609,8 +616,9 @@ body {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  padding: 80px 8%;
+  padding: 40px 8%;
   background: #F5EFE8;
+  scroll-snap-align: start;
 }
 
 .guide-container {
@@ -653,34 +661,48 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 80px 8%;
+  justify-content: flex-start;
+  padding: 120px 8% 10px 8%;
   background: #2B211B;
   text-align: center;
   color: #F8F4F0;
+  scroll-snap-align: start;
 }
 
 .logic h2 {
-  font-size: 2.8rem;
-  margin-bottom: 40px;
+  font-size: 2.4rem;
+  margin-bottom: 15px;
 }
 
-.logic-video iframe {
-  width: 70%;
-  height: 420px;
-  border-radius: 16px;
-  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.35);
-  margin-bottom: 35px;
-  border: none;
+.logic .hero-video {
+  width: 100%;
+  max-width: 800px;
+  flex: none;
+  margin-bottom: 15px;
+}
+.logic .hero-video video {
+  height: 280px;
 }
 
 .logic-text {
   max-width: 900px;
-  margin: auto;
+  margin: 0 auto;
   font-family: Consolas, "Courier New", monospace;
   font-size: 1.05rem;
-  line-height: 1.9;
+  line-height: 1.6;
   color: #F8F4F0;
+}
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-active {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .logic-text span {
@@ -700,11 +722,11 @@ body {
   .hero-text h1 {
     font-size: 2.8rem;
   }
-  .hero-video iframe,
-  .guide-video iframe {
+  .hero-video video,
+  .hero-video video {
     height: 300px;
   }
-  .logic-video iframe {
+  .logic .hero-video {
     width: 100%;
     height: 320px;
   }
@@ -720,64 +742,9 @@ body {
   .logic h2 {
     font-size: 2rem;
   }
-  .hero-video iframe,
-  .guide-video iframe,
-  .logic-video iframe {
+  .hero-video video,
+  .hero-video video,
+  .logic .hero-video video {
     height: 250px;
   }
-}
-/*
-.home-layout {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    margin-top: 30px;
-    padding-bottom: 50px;
-}
-
-.home-section {
-    background: $card-bg; // This was for old home page
-    border: 1px solid #2d2d44;
-    border-radius: 20px;
-    padding: 40px;
-    box-sizing: border-box;
-    scroll-margin-top: 20px;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.split-layout {
-    display: flex; // This was for old home page
-    gap: 40px;
-    align-items: center;
-
-    &.reverse { flex-direction: row-reverse; }
-    .text-side, .video-side { flex: 1; }
-}
-
-.centered-layout { // This was for old home page
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 25px;
-    .video-box { width: 100%; max-width: 800px; }
-}
-
-.text-side {
-    h2 { color: $accent-blue; margin-top: 0; margin-bottom: 15px; transition: color 0.3s ease; } // This was for old home page
-    p { color: #ccc; line-height: 1.6; font-size: 1rem; transition: color 0.3s ease; }
-    .nav-button { display: inline-block; width: auto; padding: 10px 30px; text-decoration: none; margin-top: 15px; }
-}
-
-.video-box {
-    aspect-ratio: 16 / 9;
-    background: #000;
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #444;
-    border: 2px dashed #333;
-    font-weight: bold;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-*//*# sourceMappingURL=main.css.map */
+}/*# sourceMappingURL=main.css.map */

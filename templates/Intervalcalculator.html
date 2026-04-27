@@ -103,6 +103,7 @@
                 <div style="clear: both;"></div>
 
                 <div class="interval-result-items">
+                    {% if result.success %}
                     <div class="result-item">
                         <label>f(x):</label>
                         <div class="display-box highlight">
@@ -118,12 +119,10 @@
                     <div class="result-item">
                         <label>Interval x0:</label>
                         <div class="display-box highlight">
-                            {% if result.success %} {{result.x0}} 
-                            {% else %} ...
-                            {% endif %}
+                            {{result.x0}}
                         </div>
                     </div>
-                    {% if not result.success %}
+                    {% else %}
                         <p class="error-msg">{{ result.error }}</p>
                     {% endif %}
                 </div>
