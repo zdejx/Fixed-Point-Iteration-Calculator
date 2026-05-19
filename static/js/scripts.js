@@ -169,31 +169,39 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 5. HERO VIDEO HOVER PLAY LOGIC ---
-    const heroVideos = document.querySelectorAll('.hero-video');
-    heroVideos.forEach(heroDiv => {
-        let timer;
-        const videoTag = heroDiv.querySelector('video');
+    // --- 5. HERO VIDEO HOVER PLAY LOGIC (YouTube Version) ---
+    // We load the YouTube IFrame API script dynamically
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        if (videoTag) {
-            heroDiv.addEventListener('mouseenter', () => {
-                // Re-verify muted for browser policy compliance
-                videoTag.muted = true;
-                timer = setTimeout(() => {
-                    videoTag.play().catch(err => {
-                        if (err.name !== 'AbortError') {
-                            console.warn("Autoplay blocked:", err);
-                        }
-                    });
-                }, 1000); 
-            });
+    // This global function is called automatically when the API is ready
+    window.onYouTubeIframeAPIReady = () => {
+        const heroVideos = document.querySelectorAll('.hero-video');
+        heroVideos.forEach(heroDiv => {
+            const iframe = heroDiv.querySelector('iframe');
+            if (!iframe) return;
 
-            heroDiv.addEventListener('mouseleave', () => {
-                clearTimeout(timer);
-                if (!videoTag.paused) videoTag.pause();
+            new YT.Player(iframe, {
+                events: {
+                    'onReady': (event) => {
+                        let timer;
+                        heroDiv.addEventListener('mouseenter', () => {
+                            timer = setTimeout(() => {
+                                event.target.playVideo();
+                            }, 1000); // 1 second delay before playing
+                        });
+
+                        heroDiv.addEventListener('mouseleave', () => {
+                            clearTimeout(timer);
+                            event.target.pauseVideo();
+                        });
+                    }
+                }
             });
-        }
-    });
+        });
+    };
 
     // --- 6. SCROLL REVEAL ANIMATION ---
     // Detects when sections enter the viewport to trigger smooth entrance animations

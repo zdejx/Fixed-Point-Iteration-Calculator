@@ -68,46 +68,55 @@ class fixedpointiterations():
            
     #Gets the approximate value with relative error included    
     def GetApprox(self, gx, interval, stopping_point, roundoff):
-        
-        #initialize the values
         x = self.x
-        x_current = (interval)
+        x_current = float(interval)
         iterations = []
         rel_error_counter = []
         rel_error = 100.0
         counter = 0
-        stopping_point = stopping_point
         max_iterations = 100
-        roundoff = roundoff
-        
         
         try:
-            #while there is still a relative error value and has not reached the stopping AND the counter is still less than the max iteration (100)
             while rel_error > stopping_point and counter < max_iterations: 
-                aprx_next = round(float(gx.subs(x, x_current)), roundoff)
-                iterations.append(round(aprx_next, roundoff))
-                rel_error = abs(round((aprx_next - x_current) / aprx_next * 100, roundoff))
+                # 1. Compute the next approximation
+                substitution = gx.subs(x, x_current)
+                aprx_next = round(float(substitution), roundoff)
+                
+                iterations.append(aprx_next)
+                
+                # 2. Prevent division by zero if aprx_next is 0
+                if aprx_next == 0:
+                    # If it hits exactly 0, we use absolute difference or break if it matched x_current
+                    if x_current == 0:
+                        rel_error = 0.0
+                    else:
+                        rel_error = 100.0 # fallback value
+                else:
+                    # Standard relative error formula
+                    rel_error = abs(round(((aprx_next - x_current) / aprx_next) * 100, roundoff))
+                
                 rel_error_counter.append(rel_error)
+                
                 counter += 1
                 x_current = aprx_next
             
-            #if the relative error reached the stopping point
             if rel_error <= stopping_point:
                 return {
-                        "success": True,
-                        "iterations": iterations,
-                        "rel_error_counter": rel_error_counter,
-                    }
+                    "success": True,
+                    "iterations": iterations,
+                    "rel_error_counter": rel_error_counter,
+                }
             
-            #if the counter exceeded max iteration
             if counter >= max_iterations:
                 return {
                     "success": False,
-                    "error": f"Reached {max_iterations} iterations without converging. The equation is spiraling and it is ultimately divergent."
+                    "error": f"Reached {max_iterations} iterations without converging. The equation is spiraling."
                 }
                 
-        except Exception: #invalid equation
-            return {"success": False, "error": "Check your equation syntax!"}
+        except Exception as e: 
+            # Printing 'e' to your console helps you see the actual error instead of guessing!
+            print(f"Math calculation error: {e}") 
+            return {"success": False, "error": f"Calculation error during iterations: {str(e)}"}
         
         
 

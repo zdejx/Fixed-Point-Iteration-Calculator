@@ -600,7 +600,7 @@ body {
         z-index: 10; /* Ensures it floats above other content */
     }
 
-    video {
+    video, iframe {
         width: 100%;
         height: 320px;
         border-radius: 16px;
@@ -682,7 +682,7 @@ body {
     flex: none;
     margin-bottom: 15px;
     
-    video {
+    video, iframe {
         height: 280px; // Slightly reduced to ensure total height fits viewport
     }
 }
@@ -729,11 +729,11 @@ body {
         font-size: 2.8rem;
     }
 
-    .hero-video video,
-    .hero-video video {
+    .hero-video video, iframe,
+    .hero-video video, iframe {
         height: 300px;
     }
-
+    
     .logic .hero-video {
         width: 100%;
         height: 320px;
@@ -754,9 +754,9 @@ body {
         font-size: 2rem;
     }
 
-    .hero-video video,
-    .hero-video video,
-    .logic .hero-video video {
+    .hero-video video, iframe,
+    .hero-video video, iframe,
+    .logic .hero-video video, iframe {
         height: 250px;
     }
 }
